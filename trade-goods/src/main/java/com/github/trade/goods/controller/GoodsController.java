@@ -15,4 +15,5 @@ public class GoodsController {
         log.info("call sayHello");
         return "hello word java!";
     }
+
 }
