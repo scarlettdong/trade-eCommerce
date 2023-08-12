@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsDao goodsDao;
+
     @Override
     public boolean insertGoods(Goods goods) {
         return goodsDao.insertGoods(goods);
