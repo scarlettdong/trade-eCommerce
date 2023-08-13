@@ -2,6 +2,7 @@ package com.github.trade.web.manager.controller;
 
 import com.github.trade.goods.db.model.Goods;
 import com.github.trade.goods.service.GoodsService;
+import com.github.trade.goods.service.SearchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class ManagerController {
 
     @Autowired
     private GoodsService goodsService;
+
+
     /**
      * 跳转到主页面
      * @return

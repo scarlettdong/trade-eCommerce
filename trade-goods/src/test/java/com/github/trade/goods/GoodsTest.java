@@ -4,19 +4,29 @@ package com.github.trade.goods;
 import com.alibaba.fastjson.JSON;
 import com.github.trade.goods.db.dao.GoodsDao;
 import com.github.trade.goods.db.model.Goods;
+import com.github.trade.goods.service.SearchService;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.SQLOutput;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GoodsTest {
     @Autowired
     private GoodsDao goodsDao;
+
+    @Autowired
+    private RestHighLevelClient client;
+
+    @Autowired
+    private SearchService searchService;
 
     @Test
     public void unitTest(){
@@ -26,12 +36,12 @@ public class GoodsTest {
     @Test
     public void goodsInsertTest(){
         Goods goods = new Goods();
-        goods.setTitle("iphone 14 pro max test3");
+        goods.setTitle("iphone 15 test1");
         goods.setBrand("苹果 Apple");
         goods.setCategory("手机");
-        goods.setNumber("NO123456");
+        goods.setNumber("NO123412");
         goods.setImage("test");
-        goods.setDescription("iphone 14 pro max is very good");
+        goods.setDescription("iphone 15 is very good");
         goods.setKeywords("苹果 手机 apple");
         goods.setSaleNum(0);
         goods.setAvailableStock(100);
@@ -40,6 +50,7 @@ public class GoodsTest {
         goods.setStatus(1);
         goods.setCreateTime(new Date());
         boolean insertResult = goodsDao.insertGoods(goods);
+        searchService.addGoodsToES(goods);
         System.out.println(insertResult);
     }
 
@@ -61,6 +72,12 @@ public class GoodsTest {
         goods.setTitle(goods.getTitle() + "update");
         boolean updateResult = goodsDao.updateGoods(goods);
         System.out.println(updateResult);
+    }
+
+    @Test
+    public void searchGoodsTest(){
+        List<Goods> goodsList = searchService.searchGoodsList("desk", 0, 20);
+        System.out.println(JSON.toJSONString(goodsList));
     }
 
 
