@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {"com.github"})
-@MapperScan({"com.github.trade.goods.db.mappers"})
+@MapperScan({"com.github.trade.order.db.mappers","com.github.trade.goods.db.mappers",})
 @SpringBootApplication
 public class TradeOrderApplication {
 

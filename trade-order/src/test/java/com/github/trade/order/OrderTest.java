@@ -13,6 +13,7 @@ import java.util.Date;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderTest {
+
     @Autowired
     private OrderDao orderDao;
 
@@ -20,7 +21,6 @@ public class OrderTest {
 
     @Test
     public void insertGoodsTest() {
-
         Order order = new Order();
         order.setUserId(123456L);
         order.setGoodsId(123L);
