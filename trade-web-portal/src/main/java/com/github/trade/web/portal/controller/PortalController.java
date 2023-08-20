@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.github.trade.goods.db.model.Goods;
 import com.github.trade.goods.service.GoodsService;
 import com.github.trade.goods.service.SearchService;
+import com.github.trade.order.db.model.Order;
+import com.github.trade.order.service.OrderService;
 import com.github.trade.web.portal.util.CommonUtils;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +29,9 @@ public class PortalController {
     @Autowired
     private SearchService searchService;
 
+    @Autowired
+    private OrderService orderService;
+
     @RequestMapping("/goods_detail")
     public String index(){
         return "goods_detail";
@@ -44,15 +50,19 @@ public class PortalController {
     }
 
     /**
-     * buy goods request
+     * 购买请求处理
+     *
      * @param userId
      * @param goodsId
      * @return
      */
     @RequestMapping("/buy/{userId}/{goodsId}")
-    public ModelAndView buy(@PathVariable long userId, @PathVariable long goodsId){
-        log.info("buy userId = {}, goodsId = {}", userId, goodsId);
-        return null;
+    public String buy(Map<String, Object> resultMap, @PathVariable long userId, @PathVariable long goodsId) {
+        log.info("userId={}, goodsId={}", userId, goodsId);
+        Order order = orderService.createOrder(userId, goodsId);
+        resultMap.put("order", order);
+        resultMap.put("resultInfo", "下单成功");
+        return "buy_result";
     }
 
     /**
@@ -78,4 +88,6 @@ public class PortalController {
         resultMap.put("goodsList", goodsList);
         return "search";
     }
+
+
 }

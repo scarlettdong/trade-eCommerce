@@ -1,7 +1,9 @@
 package com.github.trade.order;
 
+import com.alibaba.fastjson.JSON;
 import com.github.trade.order.db.dao.OrderDao;
 import com.github.trade.order.db.model.Order;
+import com.github.trade.order.service.OrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class OrderTest {
     @Autowired
     private OrderDao orderDao;
 
+    @Autowired
+    private OrderService orderService;
+
 
 
     @Test
@@ -30,6 +35,11 @@ public class OrderTest {
         System.out.println(insertresult);
     }
 
+    @Test
+    public void insertServiceOrder(){
+        Order order = orderService.createOrder(123456L, 10L);
+        System.out.println(JSON.toJSONString(order));
 
+    }
 
 }

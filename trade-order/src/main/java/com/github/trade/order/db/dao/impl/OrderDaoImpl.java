@@ -3,9 +3,8 @@ package com.github.trade.order.db.dao.impl;
 import com.github.trade.order.db.model.Order;
 import com.github.trade.order.db.dao.OrderDao;
 import com.github.trade.order.db.mappers.OrderMapper;
-import com.github.trade.order.db.model.Order;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
