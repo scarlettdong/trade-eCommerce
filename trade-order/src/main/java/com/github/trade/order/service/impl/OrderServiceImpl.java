@@ -7,6 +7,7 @@ import com.github.trade.order.db.dao.OrderDao;
 import com.github.trade.order.db.model.Order;
 import com.github.trade.order.exceptions.BizException;
 import com.github.trade.order.service.OrderService;
+import com.github.trade.order.util.SnowflakeIdWorker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +30,13 @@ public class OrderServiceImpl implements OrderService {
      * 在分布式环境中可以从机器配置上读取
      * 单机开发环境中先写死
      */
-    //private SnowflakeIdWorker snowFlake = new SnowflakeIdWorker(6, 8);
+    private SnowflakeIdWorker snowFlake = new SnowflakeIdWorker(6, 8);
 
     @Override
     public Order createOrder(long userId, long goodsId) {
         Order order = new Order();
         //普通商品购买默认无活动
-        //order.setId(snowFlake.nextId());
+        order.setId(snowFlake.nextId());
         order.setActivityId(0L);
         order.setActivityType(0);
         order.setGoodsId(goodsId);
@@ -75,11 +76,11 @@ public class OrderServiceImpl implements OrderService {
          */
         if (order == null) {
             log.error("orderId={} 对应订单不存在", orderId);
-            return;
+            throw new BizException("orderID not exsit");
         }
         if (order.getStatus() != 1) {
             log.error("orderId={}  订单状态无法支付：", orderId);
-            return;
+            throw new BizException("order status can not pay");
         }
         //Mock 模拟调用支付平台
         log.info("调用第三方支付平台付款.......");
